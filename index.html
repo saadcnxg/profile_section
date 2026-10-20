@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sidebar profile slot concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--card:#0f0f0f;--line:#1c1c1c;--mu:#8a8a8a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:#050505;color:#fff;font-family:'Space Grotesk',system-ui,sans-serif;padding:28px clamp(16px,3vw,40px)}
+h1{font-size:26px;margin:0 0 4px}
+.sub{color:var(--mu);font-size:14px;margin:0 0 28px;max-width:60ch}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:28px 20px}
+.cell{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.cap{font-size:13px;color:var(--mu);max-width:230px}
+.cap b{color:#fff;font-weight:500;display:block;margin-bottom:2px}
+.side{width:230px;height:210px;background:#000;border:1px solid #1a1a1a;border-radius:14px;padding:10px;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+.side.tall{height:290px}
+.ghost{position:absolute;top:14px;left:14px;right:14px;display:grid;gap:12px;opacity:.35}
+.ghost i{display:block;height:8px;border-radius:4px;background:#2a2a2a}.ghost i:nth-child(2){width:70%}.ghost i:nth-child(3){width:85%}
+.pc{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px}
+.row{display:flex;align-items:center;gap:10px;min-width:0}
+.txt{flex:1;min-width:0}
+.nm{font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl{font-size:10.5px;color:var(--mu);margin-top:2px}.pl u{text-underline-offset:3px;text-decoration-color:#555}
+.av{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px;position:relative;border:1.5px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,#fff,#444 45%,#bbb) border-box}
+.g{width:15px;height:15px;color:#6b6b6b;flex:none;cursor:pointer}.g:hover{color:#fff}
+.bar{height:3px;background:#222;border-radius:3px;overflow:hidden}.bar i{display:block;height:100%;width:68%;background:#ddd}
+.more{max-height:0;opacity:0;overflow:hidden;transition:max-height .3s,opacity .3s,margin .3s}
+.b:hover .more,.b:focus-within .more{max-height:70px;opacity:1;margin-top:10px}
+.more .lbl{display:flex;justify-content:space-between;font-size:10.5px;color:var(--mu);margin-bottom:6px}
+.btns{display:flex;gap:6px;margin-top:10px}
+.btns button,.seg button{flex:1;background:#171717;border:1px solid #242424;color:#ccc;border-radius:8px;padding:6px 0;font:inherit;font-size:11px;cursor:pointer}
+.btns button:hover,.seg button:hover,.menu button:hover{background:#242424;color:#fff}
+.cbtn{all:unset;display:block;width:100%;cursor:pointer}
+.menu{position:absolute;left:0;right:0;bottom:calc(100% + 6px);background:#0b0b0b;border:1px solid #262626;border-radius:12px;padding:5px;box-shadow:0 14px 30px #000;opacity:0;transform:translateY(6px);pointer-events:none;transition:.2s}
+.open .menu{opacity:1;transform:none;pointer-events:auto}
+.menu button{all:unset;display:flex;justify-content:space-between;width:100%;padding:8px 10px;border-radius:8px;font-size:12px;color:#ccc;cursor:pointer;box-sizing:border-box}
+.menu hr{border:0;border-top:1px solid #1f1f1f;margin:4px 0}
+.menu kbd{font:10px 'JetBrains Mono',monospace;color:#666}
+.rg{width:46px;height:46px;flex:none;position:relative;display:grid;place-items:center;font-weight:700;font-size:12px}
+.rg svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.rg circle{fill:none;stroke-width:2.5}.rg .t{stroke:#222}.rg .p{stroke:#fff;stroke-linecap:round;stroke-dasharray:119;stroke-dashoffset:38}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:10px;padding-top:10px;border-top:1px solid #1c1c1c;text-align:center}
+.stats b{display:block;font-size:14px}.stats span{font-size:10px;color:var(--mu)}
+.spark{width:100%;height:24px;margin-top:8px}
+.f{margin-top:26px;padding:0 10px 12px;text-align:center}
+.f .av{width:54px;height:54px;font-size:15px;margin:-27px auto 8px;box-shadow:0 0 0 5px #000;background:linear-gradient(#141414,#141414) padding-box,linear-gradient(135deg,#fff,#444 45%,#bbb) border-box}
+.chip{display:inline-block;margin-top:7px;padding:3px 10px;border-radius:99px;font-size:10px;color:#000;background:linear-gradient(120deg,#fff,#8c8c8c 50%,#eee)}
+.f .g{position:absolute;top:10px;right:10px}
+.dock{width:230px;display:flex;gap:10px}
+.dk{width:56px;height:56px;border-radius:16px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;position:relative;cursor:pointer}
+.dk .av{width:36px;height:36px}
+.dk .dot{position:absolute;right:7px;bottom:7px;width:9px;height:9px;border-radius:50%;background:#fff;border:2px solid var(--card);animation:pl 2s infinite}
+@keyframes pl{0%{box-shadow:0 0 0 0 rgba(255,255,255,.5)}100%{box-shadow:0 0 0 8px transparent}}
+.tip{position:absolute;left:calc(100% + 10px);bottom:0;white-space:nowrap;background:#0b0b0b;border:1px solid #262626;border-radius:10px;padding:8px 10px;font-size:12px;opacity:0;transform:translateX(-4px);pointer-events:none;transition:.2s}
+.dk:hover .tip,.dk:focus-visible .tip{opacity:1;transform:none}
+.dk:focus-visible{outline:1px solid #fff}
+.seg{display:flex;gap:6px;margin:10px -4px -4px;padding-top:8px;border-top:1px solid #1c1c1c}
+.s::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.08) 50%,transparent 65%);transform:translateX(-120%);transition:transform .8s}
+.s:hover::after{transform:translateX(120%)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><symbol id="gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol></svg>
+<h1>Sidebar profile slot</h1>
+<p class="sub">Each concept is drawn at real sidebar size (230px wide) with the same black and chrome palette. Hover or click the cards, some of them open up.</p>
+<div class="grid">
+
+<div class="cell"><div class="side"><div class="ghost"><i></i><i></i><i></i></div>
+<div class="pc s"><div class="row"><div class="av">UM</div><div class="txt"><div class="nm">Umerhammaz</div><div class="pl mono">PRO • <u>Unlimited</u></div></div><svg class="g"><use href="#gear"/></svg></div></div></div>
+<div class="cap"><b>1. Compact row</b>Half the height of the old card. Everything stays visible, more room for the nav.</div></div>
+
+<div class="cell"><div class="side"><div class="ghost"><i></i><i></i><i></i></div>
+<div class="pc b" tabindex="0"><div class="row"><div class="av">UM</div><div class="txt"><div class="nm">Umerhammaz</div><div class="pl mono">PRO • <u>Unlimited</u></div></div><svg class="g"><use href="#gear"/></svg></div>
+<div class="more"><div class="lbl mono"><span>Usage</span><span>68%</span></div><div class="bar"><i></i></div><div class="btns"><button>Settings</button><button>Billing</button></div></div></div></div>
+<div class="cap"><b>2. Hover expand</b>Small at rest, grows upward on hover or focus to show usage and shortcuts.</div></div>
+
+<div class="cell"><div class="side tall" id="cs"><div class="ghost"><i></i><i></i><i></i></div>
+<div class="pc open" id="cp"><div class="menu"><button>Account<kbd>⌘,</kbd></button><button>Usage and billing</button><button>Shortcuts<kbd>?</kbd></button><hr><button>Sign out</button></div>
+<button class="cbtn" id="ct" type="button"><div class="row"><div class="av">UM</div><div class="txt"><div class="nm">Umerhammaz</div><div class="pl mono">PRO • <u>Unlimited</u></div></div><svg class="g"><use href="#gear"/></svg></div></button></div></div>
+<div class="cap"><b>3. Pop-up menu</b>Click the card. Menu floats above it, so the footer itself never needs more space.</div></div>
+
+<div class="cell"><div class="side"><div class="ghost"><i></i><i></i><i></i></div>
+<div class="pc s"><div class="row"><div class="rg"><svg viewBox="0 0 46 46"><circle class="t" cx="23" cy="23" r="19"/><circle class="p" cx="23" cy="23" r="19"/></svg>UM</div><div class="txt"><div class="nm">Umerhammaz</div><div class="pl mono">1.2M tokens today</div></div><svg class="g"><use href="#gear"/></svg></div></div></div>
+<div class="cap"><b>4. Usage ring</b>The avatar ring doubles as a live usage meter. Unlimited stays in the tooltip.</div></div>
+
+<div class="cell"><div class="side tall"><div class="ghost"><i></i><i></i><i></i></div>
+<div class="pc s"><div class="row"><div class="av">UM</div><div class="txt"><div class="nm">Umerhammaz</div><div class="pl mono">PRO • <u>Unlimited</u></div></div><svg class="g"><use href="#gear"/></svg></div>
+<div class="stats"><div><b>24</b><span>Turns</span></div><div><b>9</b><span>Files</span></div><div><b>6d</b><span>Streak</span></div></div>
+<svg class="spark" viewBox="0 0 200 24" preserveAspectRatio="none"><polyline points="0,20 28,15 56,18 84,8 112,13 140,5 168,10 200,3" fill="none" stroke="#ddd" stroke-width="1.5"/></svg></div></div>
+<div class="cap"><b>5. Mini stats</b>For ZeroCommit: turns, files staged and a streak. Makes the corner feel alive.</div></div>
+
+<div class="cell"><div class="side tall"><div class="ghost"><i></i><i></i><i></i></div>
+<div class="pc f s"><svg class="g"><use href="#gear"/></svg><div class="av">UM</div><div class="nm">Hi, Umerhammaz</div><div class="chip mono">PRO ∞ Unlimited</div></div></div>
+<div class="cap"><b>6. Overlap badge</b>Avatar sits half outside the card with a metallic plan chip. Most premium look.</div></div>
+
+<div class="cell"><div class="side"><div class="ghost"><i></i><i></i><i></i></div>
+<div class="dock"><div class="dk" tabindex="0"><div class="av">UM</div><span class="dot"></span><div class="tip">Umerhammaz<br><span class="pl mono">PRO • Unlimited</span></div></div></div></div>
+<div class="cap"><b>7. Icon dock</b>For a collapsed sidebar. Just the avatar and a live dot, details on hover.</div></div>
+
+<div class="cell"><div class="side tall"><div class="ghost"><i></i><i></i><i></i></div>
+<div class="pc s"><div class="row"><div class="av">UM</div><div class="txt"><div class="nm">Umerhammaz</div><div class="pl mono">PRO • <u>Unlimited</u></div></div></div>
+<div class="seg"><button title="Settings">Settings</button><button title="Theme">Theme</button><button title="Sign out">Exit</button></div></div></div>
+<div class="cap"><b>8. Action footer</b>Gear moves into a bottom bar with three one-tap actions.</div></div>
+
+</div>
+<script>
+var cp=document.getElementById('cp');
+document.getElementById('ct').addEventListener('click',function(){cp.classList.toggle('open')});
+</script>
+</body>
+</html>
