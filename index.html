@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Living orb profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:#050505;color:#fff;font-family:'Space Grotesk',system-ui,sans-serif;padding:28px clamp(16px,3vw,40px)}
+h1{font-size:26px;margin:0 0 4px}
+.sub{color:#8a8a8a;font-size:14px;margin:0 0 28px;max-width:60ch}
+.wrap{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
+.lab{font-size:13px;color:#8a8a8a;margin-bottom:10px}
+.side{width:230px;height:190px;background:#000;border:1px solid #1a1a1a;border-radius:14px;padding:10px;display:flex;flex-direction:column;justify-content:flex-end}
+.big{width:368px;height:304px;position:relative}
+.big .side{transform:scale(1.6);transform-origin:top left}
+.pc{position:relative;height:170px;background:#0f0f0f;border:1px solid #1c1c1c;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:14px;overflow:hidden;cursor:pointer;isolation:isolate}
+.pc::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(130px circle at var(--lx,50%) var(--ly,35%),rgba(255,255,255,.07),transparent 70%)}
+.g{position:absolute;top:10px;right:11px;width:15px;height:15px;color:#6b6b6b}.g:hover{color:#fff}
+.nm{font-weight:700;font-size:14px}
+.pl{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;color:#8a8a8a;margin-top:4px}
+.pl u{text-underline-offset:3px;text-decoration-color:#555}
+.orb{position:absolute;top:14px;left:50%;width:96px;height:96px;margin-left:-48px;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.halo,.shell{position:absolute;inset:0;animation:morph 7s ease-in-out infinite alternate}
+.halo{inset:-9px;border:1px solid rgba(255,255,255,.07);animation-duration:9s;animation-direction:alternate-reverse}
+.shell{background:radial-gradient(circle at 32% 24%,rgba(255,255,255,.95),rgba(205,205,220,.6) 38%,rgba(120,120,140,.4) 72%);box-shadow:inset 7px 6px 14px rgba(255,255,255,.35),inset -9px -8px 16px rgba(90,110,255,.5),inset 0 -13px 18px rgba(255,120,90,.4),0 8px 24px rgba(0,0,0,.6)}
+@keyframes morph{0%{border-radius:46% 54% 50% 50%/52% 46% 54% 48%}33%{border-radius:56% 44% 42% 58%/46% 56% 44% 54%}66%{border-radius:48% 52% 58% 42%/58% 44% 56% 42%}100%{border-radius:52% 48% 46% 54%/44% 54% 46% 56%}}
+.void{position:absolute;inset:13px;border-radius:50%;background:radial-gradient(circle at 50% 45%,#000 55%,#050509);overflow:hidden;transition:transform .4s}
+.bl{position:absolute;width:26px;height:26px;border-radius:50%;filter:blur(7px);opacity:0;transition:opacity .5s}
+.bl.b{background:#3b3bff;left:14px;top:34px}.bl.r{background:#ff3b30;right:12px;top:22px;width:18px;height:18px}
+.eyes{position:absolute;left:50%;top:50%;display:flex;gap:7px;transform:translate(calc(-50% + var(--ex,0px)),calc(-50% + var(--ey,0px)));transition:transform .18s ease-out}
+.eyes i{display:block;width:10px;height:15px;border-radius:6px;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.7);transition:width .3s,height .3s,transform .12s}
+.blink .eyes i{transform:scaleY(.1)}
+.hover .eyes i{width:12px;height:17px}
+.think .eyes i{width:5px;height:6px}
+.think .bl{opacity:.9}
+.think .void{transform:translate(2px,2px)}
+.pop .orb{transform:scale(.28) translateY(70px)}
+.pop .bl{opacity:1}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:9px 16px;border-radius:99px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+@media(prefers-reduced-motion:reduce){.halo,.shell{animation:none}}
+</style>
+</head>
+<body>
+<h1>Living orb profile</h1>
+<p class="sub">Inspired by your video: a glassy blob that breathes, blinks, follows your cursor and shrinks into a spark when you click it. Shown at real sidebar size and zoomed in.</p>
+<div class="wrap">
+<div><div class="lab">Real size, 230px sidebar</div><div class="side" id="a"></div></div>
+<div><div class="lab">Zoomed 1.6x</div><div class="big"><div class="side" id="b"></div></div></div>
+</div>
+<div class="toast" id="t"></div>
+<script>
+var tpl='<div class="pc"><svg class="g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><div class="orb"><div class="halo"></div><div class="shell"></div><div class="void"><i class="bl b"></i><i class="bl r"></i><div class="eyes"><i></i><i></i></div></div></div><div class="nm">Hi, Umerhammaz</div><div class="pl">PRO • <u>Unlimited</u></div></div>';
+var tt=document.getElementById('t'),tm;
+function toast(m){tt.textContent=m;tt.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){tt.classList.remove('on')},1400)}
+['a','b'].forEach(function(id){
+  var host=document.getElementById(id);host.innerHTML=tpl;
+  var pc=host.firstChild,busy=false;
+  pc.addEventListener('pointermove',function(e){
+    var r=pc.getBoundingClientRect(),k=r.width/(pc.offsetWidth||1),o=pc.querySelector('.orb').getBoundingClientRect();
+    var dx=(e.clientX-(o.left+o.width/2))/k,dy=(e.clientY-(o.top+o.height/2))/k,d=Math.hypot(dx,dy)||1,m=Math.min(9,d/8);
+    pc.style.setProperty('--ex',(dx/d*m)+'px');pc.style.setProperty('--ey',(dy/d*m*.8)+'px');
+    pc.style.setProperty('--lx',((e.clientX-r.left)/r.width*100)+'%');pc.style.setProperty('--ly',((e.clientY-r.top)/r.height*100)+'%');
+  });
+  pc.addEventListener('pointerenter',function(){pc.classList.add('hover')});
+  pc.addEventListener('pointerleave',function(){pc.classList.remove('hover');pc.style.setProperty('--ex','0px');pc.style.setProperty('--ey','0px')});
+  pc.addEventListener('click',function(){
+    if(busy)return;busy=true;pc.classList.add('pop','think');toast('Pop!');
+    setTimeout(function(){pc.classList.remove('pop');setTimeout(function(){pc.classList.remove('think');busy=false},500)},900);
+  });
+  (function blink(){setTimeout(function(){pc.classList.add('blink');setTimeout(function(){pc.classList.remove('blink')},140);blink()},2600+Math.random()*2600)})();
+  (function think(){setTimeout(function(){if(!busy){pc.classList.add('think');setTimeout(function(){if(!busy)pc.classList.remove('think')},1700)}think()},6000+Math.random()*3000)})();
+});
+</script>
+</body>
+</html>
