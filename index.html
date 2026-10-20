@@ -3,22 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Living orb profile</title>
+<title>Living orb variants</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:#050505;color:#fff;font-family:'Space Grotesk',system-ui,sans-serif;padding:28px clamp(16px,3vw,40px)}
 h1{font-size:26px;margin:0 0 4px}
-.sub{color:#8a8a8a;font-size:14px;margin:0 0 28px;max-width:60ch}
-.wrap{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
-.lab{font-size:13px;color:#8a8a8a;margin-bottom:10px}
+.sub{color:#8a8a8a;font-size:14px;margin:0 0 28px;max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:28px 18px}
+.cell{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.cap{display:flex;justify-content:space-between;align-items:center;width:230px;font-size:13px;color:#8a8a8a}
+.cap b{color:#fff;font-weight:500}
+.cap button{background:none;border:1px solid #1f1f1f;color:#8a8a8a;border-radius:8px;padding:3px 9px;font:inherit;font-size:12px;cursor:pointer}
+.cap button:hover,.cap button:focus-visible{color:#fff;border-color:#666;outline:none}
+.sel .cap button{background:#fff;color:#000;border-color:#fff}
+.note{font-size:12px;color:#6f6f6f;max-width:230px;margin-top:-4px}
 .side{width:230px;height:190px;background:#000;border:1px solid #1a1a1a;border-radius:14px;padding:10px;display:flex;flex-direction:column;justify-content:flex-end}
-.big{width:368px;height:304px;position:relative}
-.big .side{transform:scale(1.6);transform-origin:top left}
 .pc{position:relative;height:170px;background:#0f0f0f;border:1px solid #1c1c1c;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:14px;overflow:hidden;cursor:pointer;isolation:isolate}
 .pc::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(130px circle at var(--lx,50%) var(--ly,35%),rgba(255,255,255,.07),transparent 70%)}
-.g{position:absolute;top:10px;right:11px;width:15px;height:15px;color:#6b6b6b}.g:hover{color:#fff}
+.g{position:absolute;top:10px;right:11px;width:15px;height:15px;color:#6b6b6b}
 .nm{font-weight:700;font-size:14px}
 .pl{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;color:#8a8a8a;margin-top:4px}
 .pl u{text-underline-offset:3px;text-decoration-color:#555}
@@ -39,36 +43,76 @@ h1{font-size:26px;margin:0 0 4px}
 .think .void{transform:translate(2px,2px)}
 .pop .orb{transform:scale(.28) translateY(70px)}
 .pop .bl{opacity:1}
+.v2 .shell{box-shadow:inset 7px 6px 14px rgba(255,255,255,.4),inset -9px -9px 16px rgba(0,0,0,.5),0 8px 24px #000}
+.v2 .bl{display:none}
+.v3 .shell{background:conic-gradient(from 0deg,#fff,#2a2a2a,#fff,#2a2a2a,#fff);box-shadow:0 0 34px rgba(255,255,255,.25);animation:spin 6s linear infinite;border-radius:50%}
+.v3 .void{inset:5px;background:#000}.v3 .eyes i{width:7px;height:7px;border-radius:50%}.v3 .bl{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.v4 .eyes i{width:5px;height:22px;border-radius:50%}.v4 .hover .eyes i,.v4.hover .eyes i{width:7px;height:24px}.v4.think .eyes i{width:12px;height:3px}
+.v5 .eyes{gap:12px}.v5 .eyes i,.v5.hover .eyes i,.v5.think .eyes i{width:15px;height:8px;background:none;border:3px solid #fff;border-bottom:0;border-radius:15px 15px 0 0;box-shadow:none}
+.v6 .eyes i,.v6.hover .eyes i,.v6.think .eyes i{width:13px;height:3px;border-radius:3px}
+.v6 .orb::after{content:"z z";position:absolute;right:-12px;top:-8px;font:500 11px 'JetBrains Mono',monospace;color:#8a8a8a;animation:fz 3s ease-in-out infinite}
+@keyframes fz{0%{opacity:0;transform:translate(0,8px)}50%{opacity:1}100%{opacity:0;transform:translate(8px,-10px)}}
+.v7 .shell{background:#000;border:1.5px solid #fff;box-shadow:0 0 18px rgba(255,255,255,.55),inset 0 0 18px rgba(255,255,255,.25)}
+.v7 .void{background:none}.v7 .bl{display:none}.v7 .eyes i{box-shadow:0 0 14px #fff,0 0 4px #fff}
+.v8 .shell{background:radial-gradient(circle at 30% 22%,#fff,#bdbdbd 22%,#3a3a3a 52%,#eaeaea 70%,#1c1c1c);box-shadow:0 10px 26px #000}
+.v8 .void{background:none}.v8 .bl{display:none}.v8 .eyes i{background:#000;box-shadow:none}
+.v9 .bl{display:none}
+.v9 .orb::before{content:"";position:absolute;inset:-17px;border-radius:50%;background:radial-gradient(circle at 50% 0,#fff 0 3.5px,transparent 4.5px);animation:spin 4s linear infinite}
+.v10 .shell,.v10 .halo{animation:none;border-radius:30%}.v10 .void{border-radius:22%;inset:12px}.v10 .bl{display:none}
+.v10 .eyes i,.v10.hover .eyes i,.v10.think .eyes i{width:12px;height:12px;border-radius:3px}
+.v10 .shell{background:linear-gradient(145deg,#f2f2f2,#8d8d8d 45%,#3b3b3b);box-shadow:inset 4px 4px 10px rgba(255,255,255,.5),0 8px 22px #000}
+.v11 .shell{animation:morph 7s ease-in-out infinite alternate,gl 3s steps(1) infinite}
+.v11 .eyes i{box-shadow:-2px 0 #f33,2px 0 #38f}
+@keyframes gl{0%,88%,100%{transform:none}90%{transform:translateX(-4px)}94%{transform:translateX(4px) skewX(8deg)}97%{transform:translateX(-2px)}}
+.v12 .eyes i:nth-child(2){display:none}
+.v12 .eyes i,.v12.hover .eyes i,.v12.think .eyes i{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle,#000 0 5px,#fff 6px)}
+.v12.think .eyes i{width:12px;height:12px}
 .toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:9px 16px;border-radius:99px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none}
 .toast.on{opacity:1}
-@media(prefers-reduced-motion:reduce){.halo,.shell{animation:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
 <body>
-<h1>Living orb profile</h1>
-<p class="sub">Inspired by your video: a glassy blob that breathes, blinks, follows your cursor and shrinks into a spark when you click it. Shown at real sidebar size and zoomed in.</p>
-<div class="wrap">
-<div><div class="lab">Real size, 230px sidebar</div><div class="side" id="a"></div></div>
-<div><div class="lab">Zoomed 1.6x</div><div class="big"><div class="side" id="b"></div></div></div>
-</div>
+<h1>Living orb variants</h1>
+<p class="sub">Twelve characters built on the orb you liked. All blink, follow your cursor and shrink into a spark when clicked. Real sidebar size, same black and chrome palette.</p>
+<div class="grid" id="g"></div>
 <div class="toast" id="t"></div>
 <script>
-var tpl='<div class="pc"><svg class="g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><div class="orb"><div class="halo"></div><div class="shell"></div><div class="void"><i class="bl b"></i><i class="bl r"></i><div class="eyes"><i></i><i></i></div></div></div><div class="nm">Hi, Umerhammaz</div><div class="pl">PRO • <u>Unlimited</u></div></div>';
-var tt=document.getElementById('t'),tm;
+var gear='<svg class="g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>';
+var body=gear+'<div class="orb"><div class="halo"></div><div class="shell"></div><div class="void"><i class="bl b"></i><i class="bl r"></i><div class="eyes"><i></i><i></i></div></div></div><div class="nm">Hi, Umerhammaz</div><div class="pl">PRO • <u>Unlimited</u></div>';
+var V=[
+['Classic','v1','Your video, as is: blue and red rim.'],
+['Mono chrome','v2','No color. Pure silver glass.'],
+['Eclipse','v3','Black core, spinning chrome ring.'],
+['Cat eyes','v4','Slit pupils. Watches you closely.'],
+['Happy','v5','Smiling arcs. Friendly mood.'],
+['Sleepy','v6','Half shut eyes, floating z.'],
+['Neon edge','v7','Hollow glass with a white glow.'],
+['Mercury','v8','Liquid metal with dark eyes.'],
+['Satellite','v9','A tiny moon circles the orb.'],
+['Robot','v10','Squircle body, square eyes.'],
+['Glitch','v11','Eyes split and jitter now and then.'],
+['Cyclops','v12','One big eye with a pupil.']
+];
+var g=document.getElementById('g'),tt=document.getElementById('t'),tm;
 function toast(m){tt.textContent=m;tt.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){tt.classList.remove('on')},1400)}
-['a','b'].forEach(function(id){
-  var host=document.getElementById(id);host.innerHTML=tpl;
-  var pc=host.firstChild,busy=false;
+V.forEach(function(v,i){
+  var c=document.createElement('div');c.className='cell';
+  c.innerHTML='<div class="cap"><b>'+(i+1)+'. '+v[0]+'</b><button type="button">Use this</button></div><div class="side"><div class="pc '+v[1]+'">'+body+'</div></div><div class="note">'+v[2]+'</div>';
+  g.appendChild(c);
+  c.querySelector('button').onclick=function(){document.querySelectorAll('.cell').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');toast('Selected: '+v[0])};
+  var pc=c.querySelector('.pc'),busy=false;
   pc.addEventListener('pointermove',function(e){
-    var r=pc.getBoundingClientRect(),k=r.width/(pc.offsetWidth||1),o=pc.querySelector('.orb').getBoundingClientRect();
-    var dx=(e.clientX-(o.left+o.width/2))/k,dy=(e.clientY-(o.top+o.height/2))/k,d=Math.hypot(dx,dy)||1,m=Math.min(9,d/8);
+    var r=pc.getBoundingClientRect(),o=pc.querySelector('.orb').getBoundingClientRect();
+    var dx=e.clientX-(o.left+o.width/2),dy=e.clientY-(o.top+o.height/2),d=Math.hypot(dx,dy)||1,m=Math.min(9,d/8);
     pc.style.setProperty('--ex',(dx/d*m)+'px');pc.style.setProperty('--ey',(dy/d*m*.8)+'px');
     pc.style.setProperty('--lx',((e.clientX-r.left)/r.width*100)+'%');pc.style.setProperty('--ly',((e.clientY-r.top)/r.height*100)+'%');
   });
   pc.addEventListener('pointerenter',function(){pc.classList.add('hover')});
   pc.addEventListener('pointerleave',function(){pc.classList.remove('hover');pc.style.setProperty('--ex','0px');pc.style.setProperty('--ey','0px')});
   pc.addEventListener('click',function(){
-    if(busy)return;busy=true;pc.classList.add('pop','think');toast('Pop!');
+    if(busy)return;busy=true;pc.classList.add('pop','think');
     setTimeout(function(){pc.classList.remove('pop');setTimeout(function(){pc.classList.remove('think');busy=false},500)},900);
   });
   (function blink(){setTimeout(function(){pc.classList.add('blink');setTimeout(function(){pc.classList.remove('blink')},140);blink()},2600+Math.random()*2600)})();
